@@ -1,0 +1,41 @@
+{
+  "name": "trpc-firebase-auth-starter",
+  "version": "1.0.0",
+  "description": "Production-ready auth starter with tRPC, Firebase, and HTTP-only cookies",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@hookform/resolvers": "^5.0.1",
+    "@mui/material": "^7.1.1",
+    "@tanstack/react-query": "^5.76.2",
+    "@trpc/client": "^11.1.2",
+    "@trpc/next": "^11.1.2",
+    "@trpc/react-query": "^11.1.2",
+    "@trpc/server": "^11.1.2",
+    "autoprefixer": "^10.4.21",
+    "clsx": "^2.1.1",
+    "firebase": "^11.7.3",
+    "firebase-admin": "^13.4.0",
+    "next": "15.3.2",
+    "postcss": "^8.5.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.4",
+    "tailwindcss": "^3.4.1",
+    "zod": "^3.24.4",
+    "zustand": "^5.0.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}
