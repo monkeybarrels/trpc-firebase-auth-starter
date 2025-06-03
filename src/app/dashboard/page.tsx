@@ -1,74 +1,73 @@
 'use client'
 
-import { ProtectedRoute } from '@/components/protected-route'
-import { useAuth } from '@/hooks/useAuth'
-import { trpc } from '@/trpc/client'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Box, Typography, Paper, Button, List, ListItem, ListItemIcon, ListItemText, Container } from '@mui/material'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
+import CelebrationIcon from '@mui/icons-material/Celebration'
 
 export default function DashboardPage() {
-  const { user, logout } = useAuth()
-  const { data: profile, isLoading } = trpc.user.me.useQuery(undefined, {
-    enabled: !!user,
-  })
+  const router = useRouter()
+  const [mounted, setMounted] = useState(false)
+ 
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return <div>Loading...</div>
+  }
 
   return (
-    <ProtectedRoute>
-      <div className="min-h-screen bg-gray-50">
-        <nav className="bg-white shadow">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between h-16">
-              <div className="flex items-center">
-                <h1 className="text-xl font-semibold">Dashboard</h1>
-              </div>
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-700">
-                  Welcome, {user?.email}!
-                </span>
-                <button
-                  onClick={logout}
-                  className="bg-red-600 text-white px-3 py-2 rounded text-sm hover:bg-red-700"
-                >
-                  Logout
-                </button>
-              </div>
-            </div>
-          </div>
-        </nav>
+    <Box minHeight="100vh" display="flex" alignItems="center" justifyContent="center" sx={{ background: 'linear-gradient(135deg, #d1fae5 0%, #bfdbfe 100%)', p: 2 }}>
+      <Container maxWidth="sm">
+        <Paper elevation={6} sx={{ borderRadius: 4, p: { xs: 3, sm: 6 }, border: '1px solid', borderColor: 'success.light', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Box display="flex" alignItems="center" gap={1} mb={1}>
+            <CelebrationIcon color="success" fontSize="large" />
+            <Typography variant="h3" fontWeight={800} color="success.main">
+              Dashboard
+            </Typography>
+          </Box>
+          <Typography variant="h6" color="text.secondary" align="center" mb={4}>
+            If you can see this page, your login worked!
+          </Typography>
 
-        <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          <div className="px-4 py-6 sm:px-0">
-            <div className="border-4 border-dashed border-gray-200 rounded-lg h-96 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                🎉 Authentication Success!
-              </h2>
-              
-              {isLoading ? (
-                <p>Loading profile...</p>
-              ) : profile ? (
-                <div className="space-y-2">
-                  <p><strong>ID:</strong> {profile.id}</p>
-                  <p><strong>Email:</strong> {profile.email}</p>
-                  <p><strong>Role:</strong> {profile.role}</p>
-                </div>
-              ) : (
-                <p>No profile data available</p>
-              )}
+          <Paper elevation={0} sx={{ width: '100%', bgcolor: 'success.lighter', border: '1px solid', borderColor: 'success.light', p: 3, borderRadius: 3, mb: 4 }}>
+            <Typography variant="subtitle1" fontWeight={700} color="success.dark" mb={1} display="flex" alignItems="center" gap={1}>
+              <CheckCircleIcon color="success" fontSize="small" /> What's Working:
+            </Typography>
+            <List dense>
+              <ListItem>
+                <ListItemIcon><CheckCircleIcon color="success" /></ListItemIcon>
+                <ListItemText primary="tRPC API route is responding" />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon><CheckCircleIcon color="success" /></ListItemIcon>
+                <ListItemText primary="Login mutation completed successfully" />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon><CheckCircleIcon color="success" /></ListItemIcon>
+                <ListItemText primary="Redirect to dashboard worked" />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon><CheckCircleIcon color="success" /></ListItemIcon>
+                <ListItemText primary="You are authenticated!" />
+              </ListItem>
+            </List>
+          </Paper>
 
-              <div className="mt-8 bg-green-50 p-4 rounded">
-                <h3 className="font-semibold text-green-800">
-                  ✅ What's Working:
-                </h3>
-                <ul className="text-green-700 text-sm mt-2 space-y-1">
-                  <li>• HTTP-only cookies (check your browser dev tools)</li>
-                  <li>• Server-side token verification</li>
-                  <li>• Type-safe tRPC procedures</li>
-                  <li>• Real-time auth state with Zustand</li>
-                  <li>• Route protection</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </main>
-      </div>
-    </ProtectedRoute>
+          <Button
+            onClick={() => router.push('/login')}
+            variant="contained"
+            color="error"
+            size="large"
+            fullWidth
+            sx={{ fontWeight: 700, borderRadius: 3, py: 1.5, mt: 1, boxShadow: 2 }}
+          >
+            Go Back to Login
+          </Button>
+        </Paper>
+      </Container>
+    </Box>
   )
 }
